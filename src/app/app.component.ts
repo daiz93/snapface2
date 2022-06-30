@@ -21,19 +21,19 @@ export class AppComponent  implements OnInit{
         interval$.subscribe(value => console.log(value));
     }, 1000); */
 
-    this.interval$ = interval(1000).pipe(
-      filter(value => value % 3 == 0),
-      map(value => value % 2 == 0 ? `Je suis   ${value.toString()} et je suis paire`: `Je suis ${value.toString()} et je suis impaire`
-      ),
-      tap(text => this.logger(text))
-    );
+    // this.interval$ = interval(1000).pipe(
+    //   filter(value => value % 3 == 0),
+    //   map(value => value % 2 == 0 ? `Je suis   ${value.toString()} et je suis paire`: `Je suis ${value.toString()} et je suis impaire`
+    //   ),
+    //   tap(text => this.logger(text))
+    // );
 
 
   }
 
-  logger(text: string): void {
-    console.log(`Log: ${text}`);
-}
+  // logger(text: string): void {
+  //   console.log(`Log: ${text}`);
+//}
 
 
 

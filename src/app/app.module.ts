@@ -11,6 +11,7 @@ import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LandingPageComponentComponent } from './landing-page-component/landing-page-component.component';
 import { SingleFaceSnapsComponent } from './single-face-snaps/single-face-snaps.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,9 @@ import { SingleFaceSnapsComponent } from './single-face-snaps/single-face-snaps.
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'en'}
