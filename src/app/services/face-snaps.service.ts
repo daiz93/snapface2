@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, observable } from "rxjs";
+import { map, Observable, switchMap } from "rxjs";
 import { FaceSnap } from "../models/face-snap.model";
 
 @Injectable({
@@ -67,8 +67,11 @@ export class FaceSnapsService{
    return this.http.get<FaceSnap[]>('http://localhost:3000/facesnaps');
   }
 
-getFaceSnapById ( facenapId: number): FaceSnap
+getFaceSnapById ( facenapId: number): Observable<FaceSnap>
 {
+
+  return this.http.get<FaceSnap>(`http://localhost:3000/facesnaps/${facenapId}`);
+  /* 
   const faceSnap = this.SnapList.find(faceSnap => faceSnap?.id ===  facenapId)
   if (!faceSnap)
   {
@@ -77,22 +80,28 @@ getFaceSnapById ( facenapId: number): FaceSnap
   }
   else
   {
-    return faceSnap;
+
+   return faceSnap;
   }
-  
+   */
 }
 
 
-  snapFaceSnapById( facenapId: number, snapType : string): void{
-    
-    
-    //const faceSnap = this.SnapList.find(faceSnap => faceSnap?.id ===  facenapId);
+  snapFaceSnapById( facenapId: number, snapType : string): Observable<FaceSnap>{
   
-    const faceSnap = this.getFaceSnapById(facenapId);
+ // const faceSnap = this.SnapList.find(faceSnap => faceSnap?.id ===  facenapId);
+  
+ //  const faceSnap$ = this.getFaceSnapById(facenapId);
 
-    snapType === "snap" ?  faceSnap.snaps ++ :  faceSnap.snaps --;
+  //snapType === "snap" ?  this.sn ++ :  faceSnap.snaps --;
    
-
+    return this.getFaceSnapById(facenapId).pipe(
+      map(faceSnap => ({
+        ...faceSnap,
+        snaps: faceSnap.snaps + (snapType == 'snap' ? 1 : -1)
+      })),
+      switchMap(upddateFaceSnap => this.http.put<FaceSnap>(`http://localhost:3000/facesnaps/${facenapId}`,upddateFaceSnap))
+    );
 
   }
 

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FaceSnap } from '../models/face-snap.model';
 import { FaceSnapsService } from '../services/face-snaps.service';
 import { Pipe, PipeTransform } from '@angular/core';
+import { Observable, tap} from 'rxjs';
 
 @Component({
   selector: 'app-single-face-snaps',
@@ -15,11 +16,11 @@ export class SingleFaceSnapsComponent {
 constructor(private facesnapService:FaceSnapsService,
   private route:ActivatedRoute)
 {
-  
+ 
 }
 
 @Input() faceSnap!: FaceSnap;
-
+faceSnap$!:Observable<FaceSnap>;
   title!: string;
   description!: string;
   dateCreate!: Date;
@@ -35,7 +36,8 @@ constructor(private facesnapService:FaceSnapsService,
     this.buttonText = 'Oh snap';
     this.snipType ='snap'
     const faceSnapId = +this.route.snapshot.params['id'];
-    this.faceSnap = this.facesnapService.getFaceSnapById(faceSnapId);
+   // this.faceSnap = this.facesnapService.getFaceSnapById(faceSnapId);
+    this.faceSnap$ = this.facesnapService.getFaceSnapById(faceSnapId);
   }
 
   onAddSnap()
@@ -51,10 +53,10 @@ constructor(private facesnapService:FaceSnapsService,
   }
 
 
-  onSnaped()
+  onSnaped(facenapId:number)
   {
      
-    if (this.buttonText === 'Oh snap')
+    if (this.buttonText == 'Oh snap')
     {
      // this.facesnapService.snapFaceSnapById(this.faceSnap.id)
       this.snipType ='snap';
@@ -71,8 +73,14 @@ constructor(private facesnapService:FaceSnapsService,
       }
  
      // alert("Voulez-vous supprimer votre snap ?"? this.onUndoSnap() :this.onAddSnap());
-     this.facesnapService.snapFaceSnapById(this.faceSnap.id, this.snipType);
+     
     }
+    this.facesnapService.snapFaceSnapById(facenapId, this.snipType).pipe(
+      tap(() => {
+        this.faceSnap$ = this.facesnapService.getFaceSnapById(facenapId);
+        this.buttonText = this.buttonText == 'Oh snap' ? 'Oups Snaped' : 'Oh snap';
+      })
+    ).subscribe();
   }
 
 }

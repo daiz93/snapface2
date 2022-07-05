@@ -1,4 +1,4 @@
-<div class="face-snap-card" [ngClass] = "{gbgreen: faceSnap.snaps > 200}">
+<div class="face-snap-card" *ngIf = "faceSnap$ | async as faceSnap" [ngClass] = "{gbgreen: faceSnap.snaps > 200}">
     <h2 >{{faceSnap.title | uppercase}}</h2>
     <p><a routerLink="/facesnaps">Back</a></p>
     <p>Mis en ligne le {{faceSnap.dateCreate | date }}</p>
@@ -9,7 +9,7 @@
     <p>{{ 300.72 | currency:'XOF':'code'}} </p>
     <p>{{ 300.72 | currency:'XOF'}} </p>
     <p>{{faceSnap.description | lowercase}}</p>
-    <p  ><button (click)="onSnaped()"> {{buttonText}}</button>
+    <p  ><button (click)="onSnaped(faceSnap.id)"> {{buttonText}}</button>
       <span [ngStyle]="{color:'rgb(0,'+ faceSnap.snaps +',0)'}"> {{faceSnap.snaps}} </span></p>
     <p *ngIf = "faceSnap.localisation" > Pris à : {{faceSnap.localisation | titlecase}}</p>
 
