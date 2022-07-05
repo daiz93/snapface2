@@ -13,10 +13,12 @@ export class LandingPageComponentComponent implements OnInit {
   userEmail: string = "toto@gmail.com";
   userName!: string;
 
+
   constructor(private router:Router) { }
 
   
   ngOnInit(): void {
+   
   }
 
   onContinue():void{

@@ -16,12 +16,13 @@
         <input id="imageUrl" type="text" formControlName="imageUrl">
     </div>
     <div class="form-group">
-        <label for="location">Lieu</label>
-        <input id="location" type="text" formControlName="location">
+        <label for="localisation">Lieu</label>
+        <input id="localisation" type="text" formControlName="localisation">
     </div>
-    <div class="action-buttons">
-        <button type="submit" (click)="onSubmitForm()">Enregistrer</button>
-    </div>
+ 
+    <!-- ... -->
+<button type="submit" (click)="onSubmitForm()" [disabled]="snapForm.invalid">Enregistrer</button>
+<!-- ... -->
     </form>
 </div>
 
