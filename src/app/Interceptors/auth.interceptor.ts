@@ -15,9 +15,12 @@ export class AuthInterceptor implements HttpInterceptor
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
       ///  throw new Error("Method not implemented.");
-      const header = new HttpHeaders()
+      const headers = new HttpHeaders()
       .append('Autorization', `Bearer ${this.auth.getToken()}`)
 
+        const modifiedReq = req.clone({headers});
+
+        return next.handle(modifiedReq);
     }
 
   
