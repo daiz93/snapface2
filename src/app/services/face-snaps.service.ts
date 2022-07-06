@@ -106,8 +106,21 @@ getFaceSnapById ( facenapId: number): Observable<FaceSnap>
   }
 
 
+  addFaceSnap(formValue: { title: string, description: string, imageUrl: string, localisation?: string }): Observable<FaceSnap> {
+     return this.getAllFaceSnaps().pipe(
+      map(faceSnaps => [...faceSnaps].sort((a: FaceSnap, b: FaceSnap)=> a.id - b.id)),
+      map(sortedFaceSnaps => sortedFaceSnaps[sortedFaceSnaps.length -1]),
+      map(previousFaceSnap => ({
+        ...formValue,
+        snaps: 0,
+        dateCreate: new Date(),
+        id: previousFaceSnap.id + 1
+      })),
+      switchMap(newFaceSnap => this.http.post<FaceSnap>(`http://localhost:3000/facesnaps`, newFaceSnap ))
+     );
+  }
 
-
+/* 
   addFaceSnap(formValue: { title: string, description: string, imageUrl: string, location?: string }) {
     const faceSnap: FaceSnap = {
         ...formValue,
@@ -116,7 +129,7 @@ getFaceSnapById ( facenapId: number): Observable<FaceSnap>
         id: this.SnapList[this.SnapList.length - 1].id + 1
     };
     this.SnapList.push(faceSnap);
-  }
+  } */
 
 /* 
   unsnapFaceSnapById( facenapId: number): void{
