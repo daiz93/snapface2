@@ -1,13 +1,16 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map, Observable, switchMap } from "rxjs";
+import { environment } from "src/environments/environment";
 import { FaceSnap } from "../models/face-snap.model";
 
 @Injectable({
     providedIn:'root'
+
 })
 export class FaceSnapsService{
 
+  backend = environment.backendlink;
   constructor (private http: HttpClient){
 
   }
@@ -64,7 +67,7 @@ export class FaceSnapsService{
   getAllFaceSnaps() : Observable<FaceSnap[]>
   {
     //return this.SnapList;
-   return this.http.get<FaceSnap[]>('http://localhost:3000/facesnaps');
+   return this.http.get<FaceSnap[]>(this.backend + 'facesnaps');
   }
 
 getFaceSnapById ( facenapId: number): Observable<FaceSnap>

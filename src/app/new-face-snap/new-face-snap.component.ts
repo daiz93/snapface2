@@ -45,8 +45,6 @@ export class NewFaceSnapComponent implements OnInit {
     ))
 );
 
-
-
   }
 
 
